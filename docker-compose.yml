@@ -1,0 +1,53 @@
+version: '3.8'
+
+services:
+  redis:
+    image: redis:alpine
+    restart: always
+    ports:
+      - '6379:6379'
+    command: redis-server --save 20 1 --loglevel warning --requirepass eYVX7EwVmmxKPCDmwMtyKVge8oLd2t82
+    networks:
+      - backend
+  db:
+    image: postgres:alpine
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql
+    environment:
+      POSTGRES_USER: app
+      POSTGRES_PASSWORD: app
+      POSTGRES_DB: app
+    networks:
+      - backend
+
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./:/zero
+    restart: always
+    environment:
+      DB_CONNECTION: postgresql
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_DATABASE: app
+      DB_USERNAME: app
+      DB_PASSWORD: app
+      REDIS_HOST: redis
+      REDIS_PASSWORD: eYVX7EwVmmxKPCDmwMtyKVge8oLd2t82
+      REDIS_PORT: 6379
+    depends_on: [db, redis]
+    networks:
+      - backend
+      
+networks:
+  backend:
+
+volumes:
+  pgdata:

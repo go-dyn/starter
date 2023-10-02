@@ -1,0 +1,115 @@
+syntax = "proto3";
+
+package example;
+
+option go_package = "github.com/go-dyn/app/grpc/protos/example";
+
+message Item {
+  uint64 id = 1;
+  string title = 2;
+  string content = 3;
+  string created_at = 4;
+  string updated_at = 5;
+}
+
+message ListRequest {
+  string token = 2;
+}
+
+message ShowRequest {
+  uint64 id = 1;
+  string token = 2;
+}
+
+message CreateRequest {
+  string token = 1;
+  string title = 2;
+  string content = 3;
+}
+
+message UpdateRequest {
+  string token = 1;
+  uint64 id = 2;
+  string title = 3;
+  string content = 4;
+}
+
+message ItemResponse {
+  int32 code = 1;
+  string message = 2;
+  Item data = 3;
+}
+
+message ListResponse {
+  int32 code = 1;
+  string message = 2;
+  repeated Item data = 3;
+}
+
+
+service ItemService {
+  rpc List(ListRequest) returns (ListResponse) {}
+  rpc Show(ShowRequest) returns (ItemResponse) {}
+  rpc Create(CreateRequest) returns (ItemResponse) {}
+  rpc Update(UpdateRequest) returns (ItemResponse) {}
+}syntax = "proto3";
+
+package user;
+
+option go_package = "github.com/go-dyn/app/grpc/protos/user";
+
+message Item {
+  uint64 id = 1;
+  string identifier = 2;
+  string email = 3;
+  string userName = 4;
+  string name = 5;
+  string created_at = 6;
+  string updated_at = 7;
+}
+
+message ListRequest {
+  string token = 2;
+}
+
+message ShowRequest {
+  uint64 id = 1;
+  string token = 2;
+}
+
+message CreateRequest {
+  string token = 1;
+  string identifier = 2;
+  string email = 3;
+  string userName = 4;
+  string name = 5;
+}
+
+message UpdateRequest {
+  string token = 1;
+  uint64 id = 2;
+  string identifier = 3;
+  string email = 4;
+  string userName = 5;
+  string name = 6; 
+}
+
+message ItemResponse {
+  int32 code = 1;
+  string message = 2;
+  Item data = 3;
+}
+
+message ListResponse {
+  int32 code = 1;
+  string message = 2;
+  repeated Item data = 3;
+}
+
+
+service ItemService {
+  rpc List(ListRequest) returns (ListResponse) {}
+  rpc Show(ShowRequest) returns (ItemResponse) {}
+  rpc Create(CreateRequest) returns (ItemResponse) {}
+  rpc Update(UpdateRequest) returns (ItemResponse) {}
+}

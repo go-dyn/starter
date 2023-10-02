@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+package user;
+
+option go_package = "github.com/go-dyn/app/grpc/protos/user";
+
+message Item {
+  uint64 id = 1;
+  string identifier = 2;
+  string email = 3;
+  string userName = 4;
+  string name = 5;
+  string created_at = 6;
+  string updated_at = 7;
+}
+
+message ListRequest {}
+
+message PaginateRequest {
+  int64 page = 2;
+  int64 limit = 3;
+}
+
+message ShowRequest {
+  uint64 id = 1;
+}
+
+message CreateRequest {
+  string identifier = 1;
+  string email = 2;
+  string userName = 3;
+  string name = 4;
+}
+
+message UpdateRequest {
+  uint64 id = 1;
+  string identifier = 2;
+  string email = 3;
+  string userName = 4;
+  string name = 5; 
+}
+
+message ItemResponse {
+  int32 code = 1;
+  string message = 2;
+  Item item = 3;
+}
+
+message ListResponse {
+  int32 code = 1;
+  string message = 2;
+  repeated Item items = 3;
+}
+
+message PaginateResponse {
+  int32 code = 1;
+  string message = 2;
+  int64 total = 3;
+  int64 page = 4;
+  int64 limit = 5;
+  repeated Item items = 6;
+}
+
+service UserService {
+  rpc List(ListRequest) returns (ListResponse) {}
+  rpc Paginate(PaginateRequest) returns (PaginateResponse) {}
+  rpc Show(ShowRequest) returns (ItemResponse) {}
+  rpc Create(CreateRequest) returns (ItemResponse) {}
+  rpc Update(UpdateRequest) returns (ItemResponse) {}
+}
